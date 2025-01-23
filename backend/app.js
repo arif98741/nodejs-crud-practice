@@ -8,6 +8,7 @@ import messageRouter from "./router/messageRouter.js";
 import userRouter from "./router/userRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import logRoutes from "./appHelper/logRoutes.js";
+import connectSockets from "./websocket/socket.js";
 
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/v1/user", userRouter);
 
 dbConnection();
 logRoutes(app); //show routes as table in console
+connectSockets();
 
 app.use(errorMiddleware);
 
