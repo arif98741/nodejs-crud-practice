@@ -8,3 +8,17 @@ router.get("/patient/find", findPatient);
 router.get("/patient/all/:page", allPatients);
 
 export default router;
+
+/**
+ * import express from "express"
+    import * as userController from "../controllers/userController.js";
+
+    const router = express.Router();
+    router.post("/patient/register", userController.patientRegister);
+    router.post("/patient/login", userController.login);
+    router.get("/patient/find", userController.findPatient);
+    router.get("/patient/all/:page", userController.allPatients);
+
+    export default router;
+    * 
+ */
