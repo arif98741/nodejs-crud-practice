@@ -1,9 +1,19 @@
 import express from "express"
-import { allPatients, findPatient, login, patientRegister } from "../controllers/userController.js";
+import {
+   addNewAdmin,
+   allPatients,
+   findPatient,
+   login,
+   patientRegister
+} from "../controllers/userController.js";
+
+import { isAdminAuthenticated, isPatientAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 router.post("/patient/register", patientRegister);
+router.post("/patient/register", patientRegister);
 router.post("/patient/login", login);
+router.post("/admin/new", isAdminAuthenticated, addNewAdmin);
 router.get("/patient/find", findPatient);
 router.get("/patient/all/:page", allPatients);
 

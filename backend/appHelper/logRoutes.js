@@ -5,9 +5,15 @@ const logRoutes = (app) => {
         const methods = Array.isArray(endpoint.methods)
             ? endpoint.methods.join(', ').toUpperCase()
             : Object.keys(endpoint.methods || {}).join(', ').toUpperCase();
+
+        const middlewares = Array.isArray(endpoint.middlewares)
+            ? endpoint.middlewares.join(', ') // Join middleware names into a single string
+            : 'None'; // Default if no middlewares are found
+
         return {
             Method: methods || 'UNKNOWN', // Handle cases where methods may not exist
-            Path: endpoint.path
+            Path: endpoint.path,
+            Middleware: middlewares
         };
     });
 

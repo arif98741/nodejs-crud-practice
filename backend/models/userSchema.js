@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
 
     role: {
         type: String,
-        required: true,
+        required: false,
         enum: ["Admin", "Patient", "Doctor"]
     },
     doctorDepartment: {
@@ -72,13 +72,13 @@ userSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, 10)
 });
 
-userSchema.methods.comparePassword = async function(enteredPassword) {
+userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }
 
-userSchema.methods.generateJsonWebToken = function (){
+userSchema.methods.generateJsonWebToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRES
+        expiresIn: process.env.JWT_COOKIE_EXPIRES
     })
 }
 

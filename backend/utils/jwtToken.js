@@ -1,10 +1,10 @@
-export const generateJsonWebToken = async (user,message,statusCode,res) => {
+export const generateJsonWebToken = async (user, message, statusCode, res) => {
     const token = await user.generateJsonWebToken();
     const cookieName = user.role == 'Admin' ? 'adminToken' : 'patientToken';
 
     const options = {
         expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+            Date.now() + process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000
         ),
         httpOnly: true
     }

@@ -37,7 +37,7 @@ app.use("/api/v1/user", userRouter);
 
 dbConnection();
 logRoutes(app); //show routes as table in console
-connectSockets();
+//connectSockets();
 
 app.use(errorMiddleware);
 
