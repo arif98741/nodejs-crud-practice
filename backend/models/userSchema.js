@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: [11, "Password Must Contain At Least 8 Characters"]
+        minLength: [8, "Password Must Contain At Least 8 Characters"]
     },
 
     role: {
@@ -72,11 +72,11 @@ userSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, 10)
 });
 
-userSchema.methods.comparePassword = async (enteredPassowrd) => {
-    return await bcrypt.compare(enteredPassowrd, this.password);
+userSchema.methods.comparePassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
 }
 
-userSchema.methods.generateJsonWebToken = () => {
+userSchema.methods.generateJsonWebToken = function (){
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRES
     })

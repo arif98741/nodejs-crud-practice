@@ -3,6 +3,7 @@ import validator from "validator";
 import { User } from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/errorMiddleware.js";
 import StatusCodes from "../helper/statusCodes.js";
+import { generateJsonWebToken } from "../utils/jwtToken.js";
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
     const {
@@ -60,6 +61,38 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "User successfully registered"
     });
+});
+
+export const login = catchAsyncErrors(async (req, res, next) => {
+    
+    const {email, password, confirmPassword,role} = req.body;
+
+    if ( !email || !password || !confirmPassword || !role) {
+        return next(new ErrorHandler("Please fill all the fields",StatusCodes.BAD_REQUEST))
+    }
+    
+    if ( password !== confirmPassword) {
+        return next(new ErrorHandler("Password not matched",StatusCodes.BAD_REQUEST))
+    }
+
+    const user = await User.findOne({email}).select('+password');
+
+    if(!user){
+        return next(new ErrorHandler("Invalid username or password",StatusCodes.NOT_FOUND))
+    }
+
+    const isPasswordMatched =  user.comparePassword(password);
+    
+    if(!isPasswordMatched){
+        return next(new ErrorHandler("Invalid username or password",StatusCodes.BAD_REQUEST))
+    }
+
+
+    if(user.role !== role){
+        return next(new ErrorHandler(`User with role ${role} not found`,StatusCodes.NOT_FOUND))
+    }
+    
+    generateJsonWebToken(user,"User logged in successfully",StatusCodes.OK,res);
 });
 
 export const findPatient = catchAsyncErrors(async (req, res, next) => {
