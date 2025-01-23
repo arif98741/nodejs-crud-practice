@@ -36,6 +36,7 @@ jobs:
       - name: Inject dynamic MONGO_URI
         working-directory: backend/config
         run: |
+          echo "Github MONGO_URI=${{ secrets.MONGO_URI }}"  
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> config.env  
 
       - name: Install dependencies
