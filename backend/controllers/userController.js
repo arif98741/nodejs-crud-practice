@@ -84,4 +84,24 @@ export const findPatient = catchAsyncErrors(async (req, res, next) => {
         success: true,
         user
     });
-})
+});
+
+export const allPatients = catchAsyncErrors(async (req, res, next) => {
+    
+    const page = parseInt(req.params.page, 10) || 1; // Get page from URL, default to 1
+    const limit = 10; // Number of users per page
+    const skip = (page - 1) * limit; // Calculate skip for pagination
+
+    const user = await User.find({}, { password: 0 })
+    .skip(skip)
+    .limit(limit);
+
+    if(user.length == 0){
+        return next(new ErrorHandler("No user found",StatusCodes.NOT_FOUND))
+    }
+
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        data: user
+    });
+});

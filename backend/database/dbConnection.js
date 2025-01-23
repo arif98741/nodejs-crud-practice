@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-export const dbConnection = () => {
-
-    console.log('Connection uri'+process.env.MONGO_URI);
+export const dbConnection =  () => {
     
     mongoose.connect(process.env.MONGO_URI, {
         dbName: "hostpital_management_system"

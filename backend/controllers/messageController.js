@@ -11,7 +11,6 @@ export const sendMessage = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Please fill all the fields",StatusCodes.BAD_REQUEST))
     }
 
-
     await Message.create({ firstName, lastName, email, phone, message });
     return res.status(StatusCodes.CREATED).json({
         success: true,
