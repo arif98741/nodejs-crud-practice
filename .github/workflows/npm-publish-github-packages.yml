@@ -29,6 +29,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
+      - name: Rename config file
+        working-directory: backend/config
+        run: mv config.env.example config.env      
+
+      - name: Inject dynamic MONGO_URI
+        working-directory: backend/config
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> config.env  
+
       - name: Install dependencies
         working-directory: backend
         run: npm install
