@@ -29,9 +29,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
-      - name: Rename config file
+      - name: Copy config file
         working-directory: backend/config
-        run: mv config.env.example config.env      
+        run: cp config.env.example config.env      
 
       - name: Inject dynamic MONGO_URI
         working-directory: backend/config
