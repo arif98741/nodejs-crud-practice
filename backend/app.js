@@ -6,6 +6,7 @@ import fileUpload from "express-fileupload";
 import { dbConnection } from "./database/dbConnection.js";
 import messageRouter from "./router/messageRouter.js";
 import userRouter from "./router/userRouter.js";
+import appointmentRouter from "./router/appointmentRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import logRoutes from "./appHelper/logRoutes.js";
 import connectSockets from "./websocket/socket.js";
@@ -34,6 +35,7 @@ app.use(fileUpload({
 
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/appointment", appointmentRouter);
 
 dbConnection();
 logRoutes(app); //show routes as table in console

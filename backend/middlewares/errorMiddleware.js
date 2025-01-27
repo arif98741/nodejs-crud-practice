@@ -8,6 +8,8 @@ class ErrorHandler extends Error {
 }
 
 export const errorMiddleware = (err, req, res, next) => {
+    console.log(err);
+
     err.message = err.message || "Internal Server Error";
     err.statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
 
@@ -24,8 +26,8 @@ export const errorMiddleware = (err, req, res, next) => {
         err = new ErrorHandler(message, StatusCodes.BAD_REQUEST);
     }
     if (err.name === "CastError") {
-        const message = `Invalid ${err.path}`,
-            err = new ErrorHandler(message, StatusCodes.BAD_REQUEST);
+        const message = `Invalid ${err.path}`;
+        err = new ErrorHandler(message, StatusCodes.BAD_REQUEST);
     }
 
     const errorMessage = err.errors

@@ -4,6 +4,7 @@ import { User } from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/errorMiddleware.js";
 import StatusCodes from "../helper/statusCodes.js";
 import { generateJsonWebToken } from "../utils/jwtToken.js";
+import cloudinary from 'cloudinary';
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
     const {
@@ -162,5 +163,122 @@ export const allPatients = catchAsyncErrors(async (req, res, next) => {
     return res.status(StatusCodes.OK).json({
         success: true,
         data: user
+    });
+});
+
+
+export const getAllDoctors = catchAsyncErrors(async (req, res, next) => {
+
+    const doctors = await User.find({ role: "Doctor" })
+
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        data: doctors
+    });
+});
+
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    const user = req.user;
+
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        data: user
+    });
+});
+
+export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
+
+    return res.status(StatusCodes.OK).cookie("adminToken", "", {
+        httpOnly: true,
+        expire: new Date(Date.now()),
+    }).json({
+        success: true,
+        message: "Admin logged out successfully",
+    });
+});
+
+export const logoutPatient = catchAsyncErrors(async (req, res, next) => {
+
+    return res.status(StatusCodes.OK).cookie("patientToken", "", {
+        httpOnly: true,
+        expire: new Date(Date.now()),
+    }).json({
+        success: true,
+        message: "User logged out successfully",
+    });
+});
+
+export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return next(new ErrorHandler("Doctor avatar required", StatusCodes.BAD_REQUEST))
+    }
+
+    const { docAvatar } = req.files;
+    const allowdFormats = ["image/png", "image/jpg", "image/webp"];
+
+    const {
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+        gender,
+        dob,
+        nid,
+        doctorDepartment } = req.body;
+
+    if (
+        !firstName ||
+        !lastName ||
+        !email ||
+        !phone ||
+        !password ||
+        !gender ||
+        !dob ||
+        !nid ||
+        !doctorDepartment) {
+
+        return next(new ErrorHandler("Please provide full details", StatusCodes.BAD_REQUEST))
+    }
+
+    const isRegistered = await User.findOne({ email });
+    if (isRegistered) {
+        return next(new ErrorHandler(`${isRegistered.role} already registered with this email`, StatusCodes.BAD_REQUEST))
+
+    }
+
+    const uploadPath = "users/profile"
+    const cloudinaryResponse = await cloudinary.v2.uploader.upload(docAvatar.tempFilePath, {
+        folder: uploadPath
+    });
+
+    if (!cloudinaryResponse || cloudinaryResponse.error) {
+        console.error("Cloudinary Error :",
+            cloudinaryResponse.error || `Uknown Cloudinary Error`
+        )
+    }
+
+    const doctor = await User.create({
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+        gender,
+        dob,
+        nid,
+        doctorDepartment,
+        role: "Doctor",
+        docAvatar: {
+            public_id: cloudinaryResponse.public_id,
+            url: cloudinaryResponse.secure_url
+        }
+    });
+
+    return res.status(StatusCodes.CREATED).json({
+        success: true,
+        message: "New Doctor successfully registered!",
+        data: doctor,
     });
 });

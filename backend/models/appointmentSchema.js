@@ -3,13 +3,12 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = new mongoose.Schema({
+const appointmentSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
         minLength: [3, "First name must containt at least 3 characters"]
     },
-
     lastName: {
         type: String,
         required: true,
@@ -26,14 +25,12 @@ const userSchema = new mongoose.Schema({
         minLength: [11, "Phone number must contain exact 11 characters"],
         maxLength: [11, "Phone number must contain exact 11 characters"],
     },
-
     nid: {
         type: String,
         required: true,
         minLength: [10, "NID should contain exact 10 characters!"],
         maxLength: [10, "NID should contain exact 10 characters!"],
     },
-
     dob: {
         type: Date,
         required: [true, "DOB is Required"],
@@ -43,43 +40,47 @@ const userSchema = new mongoose.Schema({
         required: true,
         enum: ["Male", "Female"]
     },
-
-    password: {
+    appointment_date: {
         type: String,
         required: true,
-        minLength: [8, "Password Must Contain At Least 8 Characters"]
     },
-
-    role: {
+    department: {
         type: String,
-        required: false,
-        enum: ["Admin", "Patient", "Doctor"]
+        required: true,
     },
-    doctorDepartment: {
+    doctor: {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        }
+    },
+    hasVisited: {
+        type: Boolean,
+        required: true,
+    },
+    doctorId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        default: false,
+    },
+    patientId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+    },
+    address: {
         type: String,
+        required: true,
     },
-    docAvatar: {
-        public_id: String,
-        url: String
-    }
+    status: {
+        type: String,
+        enum: ["Pending", "Accepted", "Rejected"]
+    },
 
 });
 
-userSchema.pre("save", async function () {
-    if (!this.isModified("password")) {
-        next();
-    }
-    this.password = await bcrypt.hash(this.password, 10)
-});
 
-userSchema.methods.comparePassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
-}
-
-userSchema.methods.generateJsonWebToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_COOKIE_EXPIRES
-    })
-}
-
-export const User = mongoose.model("user", userSchema);
+export const Appointment = mongoose.model("appointment", appointmentSchema);

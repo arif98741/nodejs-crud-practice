@@ -8,12 +8,22 @@ export const sendMessage = catchAsyncErrors(async (req, res, next) => {
 
     if (!firstName || !lastName || !email || !phone || !message) {
 
-        return next(new ErrorHandler("Please fill all the fields",StatusCodes.BAD_REQUEST))
+        return next(new ErrorHandler("Please fill all the fields", StatusCodes.BAD_REQUEST))
     }
 
     await Message.create({ firstName, lastName, email, phone, message });
     return res.status(StatusCodes.CREATED).json({
         success: true,
         message: "Message sent successfully!"
+    });
+});
+
+export const getAllMessages = catchAsyncErrors(async (req, res, next) => {
+
+    const messages = await Message.find()
+
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        data: messages
     });
 })
