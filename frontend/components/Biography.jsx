@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Biography = ({ title, imageUrl }) => {
+const Biography = ({ title, imageUrl }) => {
     return (
         <div className='container biography'>
             <div className='banner'>
@@ -25,3 +25,5 @@ export const Biography = ({ title, imageUrl }) => {
         </div>
     )
 }
+
+export default Biography;

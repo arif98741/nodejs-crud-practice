@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const MessageForm = () => {
+const MessageForm = () => {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -16,7 +16,7 @@ export const MessageForm = () => {
 
         try {
             await axios.post(
-                "http://localhost:4000/api/v1/message/send",
+                `${import.meta.env.VITE_API_URL}/message/send`,
                 { firstName, lastName, phone, email, message },
                 {
                     withCredentials: true,
@@ -77,3 +77,5 @@ export const MessageForm = () => {
         </div >
     )
 }
+
+export default MessageForm;

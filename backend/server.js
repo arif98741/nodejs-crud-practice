@@ -7,7 +7,6 @@ cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_APP_KEY
 });
 
-
 app.listen(process.env.PORT, () => {
     console.log(`server started at http://127.0.0.1:${process.env.PORT}`);
 });

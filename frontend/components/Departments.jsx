@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-export const Departments = () => {
+const Departments = () => {
 
     const departmentsArray = [
         {
@@ -84,3 +84,5 @@ export const Departments = () => {
         </>
     );
 }
+
+export default Departments;

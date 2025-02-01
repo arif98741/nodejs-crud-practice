@@ -4,7 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-export const Login = () => {
+const Login = () => {
 
     const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
@@ -18,7 +18,7 @@ export const Login = () => {
         e.preventDefault();
         try {
             await axios.post(
-                "http://localhost:4000/api/v1/user/login",
+                `${import.meta.env.VITE_API_URL}/user/login`,
                 { email, password, confirmPassword, role: "Patient" },
                 {
                     withCredentials: true,
@@ -77,3 +77,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export default Login;

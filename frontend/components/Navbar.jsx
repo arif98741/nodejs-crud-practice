@@ -3,15 +3,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Context } from './../src/main';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import HamburgerIcon from '../lib/HamburgerIcon';
 
-export const Navbar = () => {
+
+const Navbar = () => {
 
     const [show, setShow] = useState(false);
     const { isAuthenticated, setIsAuthenticated } = useContext(Context);
     const navigateTo = useNavigate();
 
     const handleLogout = async () => {
-        await axios.get("http://localhost:4000/api/v1/user/patient/logout", {
+        await axios.get(`${import.meta.env.VITE_API_URL}/user/patient/logout`, {
             withCredentials: true,
         }).then(res => {
             toast.success(res.data.message)
@@ -21,7 +23,7 @@ export const Navbar = () => {
         });
     }
 
-    const gotoLogin = async (e) => {
+    const gotoLogin = async () => {
         navigateTo("/login")
     }
 
@@ -32,6 +34,7 @@ export const Navbar = () => {
             </div>
 
             <div className={show ? "navLinks showmenu" : "navLinks"}>
+
                 <div className='links'>
                     <Link to={"/"}>Home</Link>
                     <Link to={"/appointment"}>Appointment</Link>
@@ -45,6 +48,11 @@ export const Navbar = () => {
                         (<button onClick={gotoLogin} className='logoutBtn btn'>Login</button>)
                 }
             </div>
+            <div className="hamburger" onClick={() => setShow(!show)}>
+                <HamburgerIcon />
+            </div>
         </nav>
     )
 }
+
+export default Navbar;

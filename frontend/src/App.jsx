@@ -3,12 +3,12 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Home } from './../pages/Home';
-import { AboutUs } from './../pages/AboutUs';
-import { Register } from './../pages/Register';
-import { Login } from './../pages/Login';
-import { Appointment } from './../pages/Appointment';
-import { Navbar } from "../components/Navbar";
+import Home from './../pages/Home';
+import AboutUs from './../pages/AboutUs';
+import Register from './../pages/Register';
+import Login from './../pages/Login';
+import Appointment from './../pages/Appointment';
+import Navbar from "../components/Navbar";
 import { Context } from "./main";
 import axios from "axios";
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/user/patient/me", { withCredentials: true })
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/user/patient/me`, { withCredentials: true })
         setIsAuthenticated(true);
         setUser(response.data.user);
       } catch (error) {
@@ -33,7 +33,7 @@ const App = () => {
 
     fetchUser();
 
-  }, [isAuthenticated])
+  }, [isAuthenticated, setIsAuthenticated, setUser])
 
   return (
     <>

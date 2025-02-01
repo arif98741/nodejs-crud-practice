@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Hero = ({ title, imageUrl }) => {
+const Hero = ({ title, imageUrl }) => {
     return (
         <div className='hero container'>
             <div className='banner'>
@@ -18,3 +18,5 @@ export const Hero = ({ title, imageUrl }) => {
         </div>
     )
 }
+
+export default Hero;

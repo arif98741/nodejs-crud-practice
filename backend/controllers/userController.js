@@ -19,8 +19,6 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
         role
     } = req.body;
 
-    console.log(req.body)
-
     if (
         !firstName ||
         !lastName ||
