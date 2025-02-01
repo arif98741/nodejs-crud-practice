@@ -18,7 +18,7 @@ config({ path: "./config/config.env" });
 
 app.use(
     cors({
-        origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+        origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL, process.env.PREVIEW_URL],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     })
@@ -38,7 +38,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
 
 dbConnection();
-logRoutes(app); //show routes as table in console
+//logRoutes(app); //show routes as table in console
 //connectSockets();
 
 app.use(errorMiddleware);

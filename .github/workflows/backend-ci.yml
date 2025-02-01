@@ -3,12 +3,12 @@ name: Backend CI
 on:
   push:
     branches:
-      - master
+      - test
     paths:
       - 'backend/**' # Only trigger when changes are made in the backend folder
   pull_request:
     branches:
-      - master
+      - test
     paths:
       - 'backend/**' # Only trigger when changes are made in the backend folder
 
