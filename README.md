@@ -10,6 +10,29 @@ npm run dev
 app will start at 4000 port as default
 
 ## API Routes
+- /api/v1
+  - /message
+    - POST /send (anonymous)
+    - GET /getall (anonymous, anonymous)
+  - /user
+    - /patient
+      - POST /register (anonymous)
+      - POST /login (anonymous)
+      - GET /find (anonymous)
+      - GET /all/:page (anonymous)
+      - GET /logout (anonymous)
+    - /admin
+      - POST /new (anonymous, anonymous)
+      - GET /me (anonymous, anonymous)
+      - GET /logout (anonymous, anonymous)
+    - /doctor
+      - POST /addnew (anonymous, anonymous)
+  - /appointment
+    - POST /post (anonymous, anonymous)
+    - GET /getall (anonymous, anonymous)
+    - PUT /update/:id (anonymous, anonymous)
+    - DELETE /delete/:id (anonymous, anonymous)
+
 
 | Index | Method   | Path                              | Middleware             |
 |-------|----------|-----------------------------------|------------------------|
