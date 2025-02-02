@@ -3,14 +3,15 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Home from './../pages/Home';
-import AboutUs from './../pages/AboutUs';
-import Register from './../pages/Register';
-import Login from './../pages/Login';
-import Appointment from './../pages/Appointment';
-import Navbar from "../components/Navbar";
+import Home from './pages/Home';
+import AboutUs from './pages/AboutUs';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Appointment from './pages/Appointment';
+import Navbar from "./components/Navbar";
 import { Context } from "./main";
 import axios from "axios";
+import Footer from "./components/footer.jsx";
 const App = () => {
 
   const {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+        <Footer/>
         <ToastContainer position="top-center" />
       </Router>
     </>

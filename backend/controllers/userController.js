@@ -167,7 +167,7 @@ export const allPatients = catchAsyncErrors(async (req, res, next) => {
 
 export const getAllDoctors = catchAsyncErrors(async (req, res, next) => {
 
-    const doctors = await User.find({ role: "Doctor" })
+    const doctors = await User.find({ role: "Doctor" }).select('-password');
 
     return res.status(StatusCodes.OK).json({
         success: true,

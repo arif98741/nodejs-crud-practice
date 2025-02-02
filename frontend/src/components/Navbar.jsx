@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { Context } from './../src/main';
+import { Context } from '../main.jsx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import HamburgerIcon from '../lib/HamburgerIcon';
+import HamburgerIcon from '../lib/HamburgerIcon.jsx';
 
 
 const Navbar = () => {
@@ -30,7 +30,7 @@ const Navbar = () => {
     return (
         <nav className='container'>
             <div className='logo'>
-                Zeecare
+                <img src="/logo.png" className="logo-img"/>
             </div>
 
             <div className={show ? "navLinks showmenu" : "navLinks"}>
@@ -49,7 +49,7 @@ const Navbar = () => {
                 }
             </div>
             <div className="hamburger" onClick={() => setShow(!show)}>
-                <HamburgerIcon />
+                <HamburgerIcon/>
             </div>
         </nav>
     )
